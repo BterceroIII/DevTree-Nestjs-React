@@ -1,7 +1,6 @@
-import { LoginResponseSchema, UserHandleResponseSchema, UserHandleSearchResponseSchema, } from "@/schema";
-import api from "./api";
 import axios from "axios";
-
+import { LoginResponseSchema, UserHandleResponseSchema, UserHandleSearchResponseSchema } from "../schema";
+import api from "../config/axios";
 
 export async function loginUser(email: string, password: string) {
     const response = await api.post("/auth/login", { email, password });
@@ -13,6 +12,7 @@ export async function loginUser(email: string, password: string) {
     const { token } = parsed.data.data;
     if (token){
         localStorage.setItem("AUTH_TOKEN", token);
+        console.log(`Token almacenado: ${token}`);
     }
     return parsed.data;
 }

@@ -1,17 +1,9 @@
-import Link from "next/link";
-import Image from "next/image";
+import { Link } from 'react-router-dom'
 
 export default function Logo() {
-  return (
-    <Link href='/'> 
-        <Image
-            src="/logo.svg"
-            className="w-full block"
-            alt="Logotipo"
-            width={200}
-            height={50}
-            priority
-        />
-    </Link>
-  )
+    return (
+        <Link to={'/'}>
+            <img src="/logo.svg" className="w-full block" alt='Logotipo Devtree' />
+        </Link>
+    )
 }

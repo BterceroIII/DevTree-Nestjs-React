@@ -1,18 +1,17 @@
-import Link from 'next/link'
-import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function HomeNavigation() {
   return (
     <>
         <Link
-            className='text-white p-2 mr-2 uppercase font-black text-xs cursor-pointer'
-            href='/auth/login'
-        >Iniciar Sesion</Link>
-
+            className='text-white p-2 uppercase font-black text-xs cursor-pointer'
+            to='/auth/login'
+        >Iniciar Sesión</Link>
+    
         <Link
-            className='bg-blue-500 text-slate-800 p-2 uppercase font-black text-xs cursor-pointer rounded-lg'
-            href='/auth/register'
-        >Registrarse</Link>
+            className='bg-lime-500 text-slate-800 p-2 uppercase font-black text-xs cursor-pointer rounded-lg'
+            to='/auth/register'
+        >Registrarme</Link>
     </>
   )
 }
