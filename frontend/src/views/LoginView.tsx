@@ -23,6 +23,7 @@ export default function LoginView() {
     try {
       const result = await loginUser(formData.email, formData.password);
       
+      toast.success(result.message, {className: "bg-green-400 text-slate-800"});
       navigate("/admin");
     } catch (error) {
       if (isAxiosError(error) && error.response) {

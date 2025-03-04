@@ -42,12 +42,9 @@ export const RegisterFormSchema = UserSchema.pick({
   email: true,
   name: true,
 }).extend({
-  password: z.string().min(6, { message: "La contraseña debe tener al menos 6 caracteres" }),
-  password_confirmation: z.string(),
-}).refine(
-  (data) => data.password === data.password_confirmation,
-  { message: "Las contraseñas no coinciden", path: ["password_confirmation"] }
-);
+  password: z.string().min(8, { message: "La contraseña debe tener al menos 8 caracteres" }),
+  password_confirmation: z.string().optional(),
+});
 
 export const LoginFormSchema = UserSchema.pick({
   email: true,
@@ -76,6 +73,7 @@ export const LoginTokenSchema = z.object({
   refreshToken: z.string(),
 });
 
+export const RegisterResponseSchema = ApiResponseSchema(RegisterFormSchema);
 export const LoginResponseSchema = ApiResponseSchema(LoginTokenSchema);
 export const UserHandleResponseSchema = ApiResponseSchema(UserHandleSchema);
 

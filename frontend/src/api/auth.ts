@@ -1,6 +1,15 @@
 import axios from "axios";
-import { LoginResponseSchema, UserHandleResponseSchema, UserHandleSearchResponseSchema } from "../schema";
+import { LoginResponseSchema, RegisterResponseSchema, UserHandleResponseSchema, UserHandleSearchResponseSchema } from "../schema";
 import api from "../config/axios";
+
+export async function registerUser(name: string, email: string, password: string, handle: string) {
+  const response = await api.post('/auth/register', { name, email, password, handle });
+  const parsed = RegisterResponseSchema.safeParse(response.data);
+  if (!parsed.success) {
+    throw new Error("Respuesta con formato inválido al registrar usuario");
+  }
+  return parsed.data;
+}
 
 export async function loginUser(email: string, password: string) {
     const response = await api.post("/auth/login", { email, password });
