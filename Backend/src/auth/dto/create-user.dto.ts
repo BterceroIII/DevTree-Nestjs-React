@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsUrl,
   MaxLength,
@@ -60,6 +61,7 @@ export class CreateUserDto {
   })
   @IsString({ message: 'Description must be a string' })
   @MaxLength(255, { message: 'Description must be at most 255 characters' })
+  @IsOptional()
   description: string;
 
   @ApiProperty({
@@ -69,6 +71,7 @@ export class CreateUserDto {
   })
   @IsString({ message: 'Image must be a string' })
   @IsUrl({}, { message: 'Image must be a valid URL' })
+  @IsOptional()
   image: string;
 
   @ApiProperty({
@@ -77,5 +80,6 @@ export class CreateUserDto {
     example: ['https://www.linkedin.com/in/yasser-m-b373117/'],
   })
   @IsString({ each: true, message: 'Links must be strings' })
+  @IsOptional()
   links: string[];
 }
