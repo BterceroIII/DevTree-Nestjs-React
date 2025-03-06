@@ -40,7 +40,7 @@ export default function RegisterView() {
 
     return (
         <>
-            <h1 className="text-4x1 text-white font-bold">Crear Cuenta</h1>
+            <h1 className="text-4xl text-white font-bold">Crear Cuenta</h1>
 
             <form 
                 onSubmit={handleSubmit(handleRegister)}

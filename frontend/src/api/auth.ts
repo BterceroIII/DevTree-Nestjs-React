@@ -1,6 +1,7 @@
 import axios from "axios";
-import { LoginResponseSchema, RegisterResponseSchema, UserHandleResponseSchema, UserHandleSearchResponseSchema } from "../schema";
+import { LoginResponseSchema, RegisterResponseSchema, User, UserHandleResponseSchema, UserHandleSearchResponseSchema, UserIdResponseSchema } from "../schema";
 import api from "../config/axios";
+import { QueryFunctionContext } from "@tanstack/react-query";
 
 export async function registerUser(name: string, email: string, password: string, handle: string) {
   const response = await api.post('/auth/register', { name, email, password, handle });
@@ -21,18 +22,40 @@ export async function loginUser(email: string, password: string) {
     const { token } = parsed.data.data;
     if (token){
         localStorage.setItem("AUTH_TOKEN", token);
-        console.log(`Token almacenado: ${token}`);
     }
     return parsed.data;
 }
 
 export async function getUserByHandle(handle: string) {
   const response = await api.get(`/auth/handle/${handle}`);
-  console.log(response.data)
   const parsed = UserHandleResponseSchema.safeParse(response.data);
-  console.log(parsed.data)
   if (!parsed.success) {
     throw new Error('Respuesta con formato inválido al obtener usuario por handle');
+  }
+  return parsed.data;
+}
+
+export async function getUser(id: string) {
+  const response = await api.get(`/auth/${id}`);
+  const parsed = UserIdResponseSchema.safeParse(response.data);
+  if (!parsed.success) {
+    throw new Error('Respuesta con formato inválido al obtener usuario');
+  }
+  return parsed.data;
+}
+
+export async function getUserQuery(
+  context: QueryFunctionContext<[string, string]>
+) {
+  const [_key, id] = context.queryKey;
+  return getUser(id);
+}
+
+export async function updateProfile(id: string,formData: User) {
+  const response = await api.put(`/auth/${id}`, formData);
+  const parsed = UserHandleResponseSchema.safeParse(response.data);
+  if (!parsed.success) {
+    throw new Error('Respuesta con formato inválido al actualizar usuario');
   }
   return parsed.data;
 }

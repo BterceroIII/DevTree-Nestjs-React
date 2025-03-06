@@ -16,7 +16,7 @@ export const UserSchema = z.object({
   id: z.string(),
   description: z.string(),
   image: z.string(),
-  links: z.string().array(),
+  links: z.string(),
 });
 
 export type User = z.infer<typeof UserSchema>;
@@ -76,11 +76,14 @@ export const LoginTokenSchema = z.object({
 export const RegisterResponseSchema = ApiResponseSchema(RegisterFormSchema);
 export const LoginResponseSchema = ApiResponseSchema(LoginTokenSchema);
 export const UserHandleResponseSchema = ApiResponseSchema(UserHandleSchema);
+export const UserIdResponseSchema = ApiResponseSchema(UserSchema);
 
 export type RegisterForm = z.infer<typeof RegisterFormSchema>;
+export type SocialNetwork = z.infer<typeof SocialNetworkSchema>;
 export type DevTreeLink = z.infer<typeof DevTreeLinkSchema>;
 export type LoginForm = z.infer<typeof LoginFormSchema>;
 export type UserHandle = z.infer<typeof UserHandleSchema>;
 export type LoginResponse = z.infer<typeof LoginResponseSchema>;
 export type UserHandleResponse = z.infer<typeof UserHandleResponseSchema>;
 export type UserHandleSearch = z.infer<typeof UserHandleSearchResponseSchema>;
+export type UserIdResponse = z.infer<typeof UserIdResponseSchema>;
