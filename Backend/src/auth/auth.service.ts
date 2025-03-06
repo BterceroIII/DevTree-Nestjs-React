@@ -214,6 +214,7 @@ export class AuthService {
       throw error;
     }
   }
+  
   async refreshToken(refreshToken: string): Promise<TokenResponseDto> {
     try {
       const payload = this.jwtService.verify(refreshToken, {
