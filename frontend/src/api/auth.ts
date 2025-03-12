@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { LoginResponseSchema, RegisterResponseSchema, User, UserHandleResponseSchema, UserHandleSearchResponseSchema, UserIdResponseSchema } from "../schema";
 import api from "../config/axios";
 import { QueryFunctionContext } from "@tanstack/react-query";
@@ -58,6 +58,19 @@ export async function updateProfile(id: string,formData: User) {
     throw new Error('Respuesta con formato inválido al actualizar usuario');
   }
   return parsed.data;
+}
+
+export async function uploadImage(file: File) {
+  let formData = new FormData()
+  formData.append('file', file)
+  try {
+      const { data: {image} } : {data: {image: string}} = await api.post('/upload-imge', formData)
+      return image
+  } catch (error) {
+      if (isAxiosError (error) && error.response) {
+          throw new Error(error.response.data.error)
+      }
+  }
 }
 
 export async function searchByHandle(handle: string) {

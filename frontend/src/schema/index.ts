@@ -73,6 +73,11 @@ export const LoginTokenSchema = z.object({
   refreshToken: z.string(),
 });
 
+export const ProfileFormSchema = UserSchema.pick({
+  handle: true,
+  description: true,
+})
+
 export const RegisterResponseSchema = ApiResponseSchema(RegisterFormSchema);
 export const LoginResponseSchema = ApiResponseSchema(LoginTokenSchema);
 export const UserHandleResponseSchema = ApiResponseSchema(UserHandleSchema);
@@ -87,3 +92,4 @@ export type LoginResponse = z.infer<typeof LoginResponseSchema>;
 export type UserHandleResponse = z.infer<typeof UserHandleResponseSchema>;
 export type UserHandleSearch = z.infer<typeof UserHandleSearchResponseSchema>;
 export type UserIdResponse = z.infer<typeof UserIdResponseSchema>;
+export type ProfileForm = z.infer<typeof ProfileFormSchema>;
