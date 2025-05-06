@@ -81,5 +81,5 @@ export class CreateUserDto {
   })
   @IsString({ each: true, message: 'Links must be strings' })
   @IsOptional()
-  links: string[];
+  links: { name: string; url: string; enabled: boolean; id: number }[];
 }

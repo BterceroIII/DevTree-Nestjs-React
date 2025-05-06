@@ -24,8 +24,8 @@ export class User {
   @Column({ type: 'varchar', length: 255, default: '' })
   image: string;
 
-  @Column({ type: 'varchar', array: true, default: '{}' })
-  links: string[];
+  @Column({ type: 'jsonb', nullable: true })
+  links: { name: string; url: string; enabled: boolean; id: number }[];
 
   @OneToMany(() => RefreshToken, (refreshToken) => refreshToken.user, {
     cascade: true,

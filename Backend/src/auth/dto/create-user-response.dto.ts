@@ -60,5 +60,5 @@ export class CreateUserResponseDto {
     example: ['https://www.linkedin.com/in/yasser-m-b373117/'],
   })
   @Expose()
-  links: string[];
+  links: { name: string; url: string; enabled: boolean; id: number }[];
 }

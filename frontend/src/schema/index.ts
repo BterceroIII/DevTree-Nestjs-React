@@ -1,4 +1,5 @@
 import { z, ZodTypeAny } from "zod";
+import { social } from "../data/social";
 
 export const ApiResponseSchema = <T extends ZodTypeAny>(dataSchema: T) => {
   return z.object({
@@ -9,6 +10,13 @@ export const ApiResponseSchema = <T extends ZodTypeAny>(dataSchema: T) => {
   });
 };
 
+export const SocialNetworkSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  url: z.string(),
+  enabled: z.boolean(),
+});
+
 export const UserSchema = z.object({
   handle: z.string(),
   name: z.string(),
@@ -16,8 +24,20 @@ export const UserSchema = z.object({
   id: z.string(),
   description: z.string(),
   image: z.string(),
-  links: z.string(),
+  links: z.string().optional(),
 });
+
+// export type UserResponse = {
+//   handle: string
+//   name: string
+//   email: string
+//   id: string
+//   description: string
+//   image: string
+//   links: string
+// }
+
+
 
 export type User = z.infer<typeof UserSchema>;
 
@@ -53,12 +73,7 @@ export const LoginFormSchema = UserSchema.pick({
 });
 
 // Define el esquema para SocialNetwork
-export const SocialNetworkSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  url: z.string(),
-  enabled: z.boolean(),
-});
+
 
 // Crea el esquema para DevTreeLink usando .pick()
 export const DevTreeLinkSchema = SocialNetworkSchema.pick({

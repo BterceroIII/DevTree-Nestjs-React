@@ -181,15 +181,17 @@ export class AuthService {
     updateUserDto: UpdateUserDto,
   ): Promise<UpdateUserResponseDto> {
     try {
-      const normalizedHandle = this.normalizeHandle.normalizeHandle(
-        updateUserDto.handle,
-      );
-      updateUserDto.handle = normalizedHandle;
+       const normalizedHandle = this.normalizeHandle.normalizeHandle(
+         updateUserDto.handle,
+       );
+       updateUserDto.handle = normalizedHandle;
 
       const userConflict = await this.userRepository.findOne({
-        where: { handle: normalizedHandle },
+        where: {  id: userId },
       });
-      if (userConflict && userConflict.id !== userId) {
+      console.log('userConflict', userConflict);
+      console.log('userId', userId);
+      if ( userConflict.id !== userId) {
         throw new BadRequestException('Nombre de usuario no disponible');
       }
 

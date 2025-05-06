@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsOptional, IsString, MaxLength } from 'class-validator';
 
 export class UpdateUserDto {
   @ApiProperty({
@@ -10,7 +11,7 @@ export class UpdateUserDto {
   })
   @IsString({ message: 'Handle must be a string' })
   @MaxLength(255, { message: 'Handle must be at most 255 characters' })
-  @IsNotEmpty({ message: 'Email must not be empty' })
+  @Transform(({ value }) => (value ? value.toLowerCase() : value))
   @IsOptional()
   handle: string;
 
@@ -29,7 +30,6 @@ export class UpdateUserDto {
     required: true,
     example: ['https://www.linkedin.com/in/yasser-m-b373117/'],
   })
-  @IsString({ each: true, message: 'Links must be strings' })
   @IsOptional()
-  links: string[];
+  links: { name: string; url: string; enabled: boolean; id: number }[];
 }

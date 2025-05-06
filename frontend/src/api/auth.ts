@@ -1,5 +1,5 @@
 import axios, { isAxiosError } from "axios";
-import { LoginResponseSchema, RegisterResponseSchema, User, UserHandleResponseSchema, UserHandleSearchResponseSchema, UserIdResponseSchema } from "../schema";
+import { LoginResponseSchema, RegisterResponseSchema, User, UserHandleResponseSchema, UserHandleSearchResponseSchema } from "../schema";
 import api from "../config/axios";
 import { QueryFunctionContext } from "@tanstack/react-query";
 
@@ -36,12 +36,18 @@ export async function getUserByHandle(handle: string) {
 }
 
 export async function getUser(id: string) {
-  const response = await api.get(`/auth/${id}`);
-  const parsed = UserIdResponseSchema.safeParse(response.data);
-  if (!parsed.success) {
-    throw new Error('Respuesta con formato inválido al obtener usuario');
+  const token = localStorage.getItem("AUTH_TOKEN");
+  if (!token) {
+    throw new Error("No autorizado: falta el token de autenticación");
   }
-  return parsed.data;
+
+  const response = await api.get(`/auth/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
 }
 
 export async function getUserQuery(
@@ -51,8 +57,8 @@ export async function getUserQuery(
   return getUser(id);
 }
 
-export async function updateProfile(id: string,formData: User) {
-  const response = await api.put(`/auth/${id}`, formData);
+export async function updateProfile(id: string,formData: { links: string }) {
+  const response = await api.patch(`/auth/${id}`, formData);
   const parsed = UserHandleResponseSchema.safeParse(response.data);
   if (!parsed.success) {
     throw new Error('Respuesta con formato inválido al actualizar usuario');
